@@ -8,14 +8,13 @@ public class Day04 : BaseDay
 
     public Day04()
     {
-        _input = File.ReadAllText(InputFilePath);
+        _input = File.ReadAllText(InputFilePath).Replace("\r","");
     }
 
     public override ValueTask<string> Solve_1()
     {
         Regex rx_hor  = new(@"XMA(?=S)|SAM(?=X)");
-        // length in regex is dependent of OS. Windows uses \r\n instead of \n which adds 1. 
-        int l         = ((int) Math.Sqrt(_input.Length)) + 1;
+        int l         = (int) Math.Sqrt(_input.Length);
         string vert   = $$"""X(?=.{{{l}}}M.{{{l}}}A.{{{l}}}S)|S(?=.{{{l}}}A.{{{l}}}M.{{{l}}}X)""";
         Regex rx_vert = new(vert, RegexOptions.Singleline);
         string dia1   = $$"""X(?=.{{{l-1}}}M.{{{l-1}}}A.{{{l-1}}}S)|S(?=.{{{l-1}}}A.{{{l-1}}}M.{{{l-1}}}X)""";
@@ -32,7 +31,7 @@ public class Day04 : BaseDay
 
     public override ValueTask<string> Solve_2()
     {
-        int l          = ((int) Math.Sqrt(_input.Length)) + 1; // +1 because windows
+        int l          = (int) Math.Sqrt(_input.Length);
         string pattern =
             $$"""(?<=M.{{{l-1}}})(?<=M.{{{l+1}}})A(?=.{{{l-1}}}S)(?=.{{{l+1}}}S)|""" +
             $$"""(?<=S.{{{l-1}}})(?<=S.{{{l+1}}})A(?=.{{{l-1}}}M)(?=.{{{l+1}}}M)|""" +
